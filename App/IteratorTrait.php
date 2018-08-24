@@ -10,6 +10,8 @@ namespace App;
 trait IteratorTrait
 {
 
+    protected $data = [];
+
     public function rewind() //Перемотать итератор на первый элемент
     {
         reset($this->data);
