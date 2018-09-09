@@ -15,7 +15,7 @@ class Db    //Улучшаем класс Db.
         try { //попробуй установить соединение с БД
             $this->dbh = new \PDO($this->dsn, $this->cfg->data['db']['username'], $this->cfg->data['db']['password']);
         } catch (\PDOException $error) {
-            throw $erDb = new DbException('Ошибка соединения с базой данных');
+            throw new DbException('Ошибка соединения с базой данных');
         }
     }
 
@@ -24,7 +24,7 @@ class Db    //Улучшаем класс Db.
         $sth = $this->dbh->prepare($sql);
 
         if (false === $sth) {
-            throw $erDb = new DbException('Ошибка подготовки запроса');
+            throw new DbException('Ошибка подготовки запроса');
         }
         if ( $sth->execute($data) ) {
             return $sth->fetchAll( \PDO::FETCH_CLASS, $class );
@@ -36,10 +36,10 @@ class Db    //Улучшаем класс Db.
         $sth = $this->dbh->prepare($query);
 
         if (false === $sth) {
-            throw $erDb = new DbException('Ошибка подготовки запроса');
+            throw new DbException('Ошибка подготовки запроса');
         }
         if ( !$sth->execute($params) ) {
-            throw $erDb = new DbException('Ошибка запроса из базы данных');
+            throw new DbException('Ошибка запроса из базы данных');
         }
     }
 

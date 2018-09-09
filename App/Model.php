@@ -23,7 +23,7 @@ abstract class Model
         $data = $db->query( $sql, static::class, [':id' => $id] );
 
         if ( empty($data[0]) ) {
-            throw $erDb = new Error404Exception('Ошибка 404 - не найдено:(');
+            return false;
         }
         return $data[0];
     }
