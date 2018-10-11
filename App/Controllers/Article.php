@@ -8,14 +8,20 @@ class Article extends \App\Controller
     protected function action()
     {
         //2-3. Подключили библиотеку twig/twig. Переводим шаблоны страниц сайта (фронт, не админ-панель) на Twig
-        $loader = new \Twig_Loader_Filesystem('templates');
+        $loader = new \Twig_Loader_Filesystem(__DIR__ . '/../../templates');
         $twig = new \Twig_Environment($loader, []);
 
-        if (false === \App\Models\Article::findById($_GET['id'])) {
-            throw new \App\Error404Exception('Ошибка 404 - не найдено:(');
+        if ( isset($_GET['id']) ) { //проверяем на существование
+
+            $this->view = new \App\View();
+            $this->view->article = \App\Models\Article::findById( $_GET['id'] );
+
+            if ( false === $this->view->article) {
+                throw new \App\Error404Exception('Ошибка 404 - не найдено:(');
+            }
         }
 
-        echo $twig->render('/article.php',
+        $twig->display('/article.php',
             [ 'article' => \App\Models\Article::findById($_GET['id']) ]
         );
     }
